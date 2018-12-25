@@ -28,7 +28,7 @@ for i=1:size(datasets,1);
 end
 
 % start with first dataset
-data = load(['datasets/' datasets{2}]);
+data = load(['datasets/' datasets{1}]); %change dataset
 x=data(:,1)/max([data(:,1);data(:,2)]);
 y=data(:,2)/max([data(:,1);data(:,2)]);
 NVAR=size(data,1);
