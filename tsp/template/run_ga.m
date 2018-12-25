@@ -1,4 +1,7 @@
 function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3)
+
+global Gen_data;
+
 % usage: run_ga(x, y, 
 %               NIND, MAXGEN, NVAR, 
 %               ELITIST, STOP_PERCENTAGE, 
@@ -56,6 +59,8 @@ function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR
             visualizeTSP(x,y,adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
 
             if (sObjV(stopN)-sObjV(1) <= 1e-15)
+                Gen_data.fitness(Gen_data.i) = sObjV(1);
+                Gen_data.fitnessBis(Gen_data.i) = min(ObjV);
                   break;
             end          
         	%assign fitness values to entire population
@@ -74,4 +79,6 @@ function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR
         	%increment generation counter
         	gen=gen+1;            
         end
+        
+        Gen_data. i = Gen_data.i + 1;
 end
