@@ -1,8 +1,8 @@
 % MyMain
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-NIND=1000;%50		% Number of individuals
-MAXGEN=1500;%100		% Maximum no. of generations
+NIND=100;%50		% Number of individuals
+MAXGEN=200;%100		% Maximum no. of generations
 NVAR=26;		% No. of variables
 PRECI=1;		% Precision of variables
 ELITIST=0.15;%0.05    % percentage of the elite population
@@ -28,7 +28,7 @@ for i=1:size(datasets,1);
 end
 
 % start with first dataset
-data = load(['datasets/' datasets{10}]); %change dataset
+data = load(['datasets/' datasets{1}]); %change dataset
 x=data(:,1)/max([data(:,1);data(:,2)]);
 y=data(:,2)/max([data(:,1);data(:,2)]);
 NVAR=size(data,1);

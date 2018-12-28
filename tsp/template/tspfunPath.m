@@ -3,11 +3,16 @@ function ObjVal = tspfunPath(Gen,Dist)
 %   Detailed explanation goes here
 
     Ncity = length(Gen(1,:));
-	ObjVal=Dist(Gen(:,Ncity),Gen(:,1));
+    Nindiv = length(Gen(:,1));
+	ObjVal = zeros(Nindiv,1);%
     
-	for i = 2:size(Gen,2)
-
-    	ObjVal = ObjVal + Dist(Gen(:,i-1),Gen(:,i));
+    for j = 1 : Nindiv
+	
+        ObjVal(j) = Dist(Gen(j,Ncity),Gen(j,1));
+        for i = 2 : Ncity
+            ObjVal(j) = ObjVal(j) + Dist(Gen(j,i-1),Gen(j,i));
+        end
+        
 	end
 
 

@@ -25,8 +25,8 @@ function NewChrom = mutateTSP(MUT_F, OldChrom, MutOpt);
 NewChrom=OldChrom;
 
 for r=1:rows
-	if rand<MutOpt
-		NewChrom(r,:) = feval(MUT_F, OldChrom(r,:),1);
+	if rand < MutOpt %rand between 0 et 1
+		NewChrom(r,:) = feval(MUT_F, OldChrom(r,:),0); % change 1 to 0 to select path represent
 	end
 end
 
