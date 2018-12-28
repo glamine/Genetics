@@ -1,21 +1,21 @@
 % MyMain
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-NIND=50;		% Number of individuals
-MAXGEN=100;		% Maximum no. of generations
+NIND=1000;%50		% Number of individuals
+MAXGEN=1500;%100		% Maximum no. of generations
 NVAR=26;		% No. of variables
 PRECI=1;		% Precision of variables
-ELITIST=0.05;    % percentage of the elite population
+ELITIST=0.15;%0.05    % percentage of the elite population
 GGAP=1-ELITIST;		% Generation gap
-STOP_PERCENTAGE=.95;    % percentage of equal fitness individuals for stopping
-PR_CROSS=.95;     % probability of crossover
-PR_MUT=.05;       % probability of mutation
-LOCALLOOP=0;      % local loop removal
+STOP_PERCENTAGE=.95;%0.95    % percentage of equal fitness individuals for stopping
+PR_CROSS=.95;%0.95     % probability of crossover
+PR_MUT=.15;%0.05       % probability of mutation
+LOCALLOOP=1; %0     % local loop removal
 CROSSOVER = 'xalt_edges';  % default crossover operator
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 global Gen_data;
-numberOfInstances = 10;
+numberOfInstances = 1;%10
 Gen_data.fitness = zeros(numberOfInstances,1);
 Gen_data.fitnessBis = zeros(numberOfInstances,1);
 Gen_data.i = 1;
@@ -28,7 +28,7 @@ for i=1:size(datasets,1);
 end
 
 % start with first dataset
-data = load(['datasets/' datasets{1}]); %change dataset
+data = load(['datasets/' datasets{10}]); %change dataset
 x=data(:,1)/max([data(:,1);data(:,2)]);
 y=data(:,2)/max([data(:,1);data(:,2)]);
 NVAR=size(data,1);

@@ -34,14 +34,14 @@ global Gen_data;
         % initialize population
         Chrom=zeros(NIND,NVAR);
         for row=1:NIND
-        	Chrom(row,:)=path2adj(randperm(NVAR));
-            %Chrom(row,:)=randperm(NVAR);
+        	%Chrom(row,:)=path2adj(randperm(NVAR));%if path representation
+            Chrom(row,:)=randperm(NVAR);
         end
         gen=0;
         % number of individuals of equal fitness needed to stop
         stopN=ceil(STOP_PERCENTAGE*NIND);
         % evaluate initial population
-        ObjV = tspfun(Chrom,Dist);
+        ObjV = tspfun(Chrom,Dist); % ok GEN = PHEN
         best=zeros(1,MAXGEN);
         % generational loop
         while gen<MAXGEN
