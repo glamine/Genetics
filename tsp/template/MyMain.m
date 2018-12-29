@@ -15,7 +15,7 @@ CROSSOVER = 'xalt_edges';  % default crossover operator
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 global Gen_data;
-numberOfInstances = 1;%10
+numberOfInstances = 10;%10
 Gen_data.fitness = zeros(numberOfInstances,1);
 Gen_data.fitnessBis = zeros(numberOfInstances,1);
 Gen_data.i = 1;
