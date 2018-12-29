@@ -71,7 +71,7 @@ global Gen_data;
         	SelCh=select('sus', Chrom, FitnV, GGAP);
         	%recombine individuals (crossover)
             
-            %SelCh = recombin(CROSSOVER,SelCh,PR_CROSS);
+            SelCh = recombin(CROSSOVER,SelCh,PR_CROSS);
             
             SelCh=mutateTSP('inversion',SelCh,PR_MUT);
             %evaluate offspring, call objective function

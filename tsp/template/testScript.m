@@ -9,4 +9,4 @@
      bi = 3;
      ei = 4;
 
-Offspring = cross_order_based(Chrom,bi,ei)
+Offspring = cross_order_based(Chrom,bi,ei);

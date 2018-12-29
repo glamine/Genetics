@@ -11,16 +11,28 @@ if nargin < 2, XOVR = NaN; end
 	   maxrows=maxrows-1; % rendre pair inferieur
    end
    
+   L = length(OldChrom(1,:));
+   
    for row=1:2:maxrows
 	
+       bounds = randperm(L,2);
+       if(bounds(1) > bounds(2))
+           bi = bounds(2);
+           ei = bounds(1);
+       else
+           bi = bounds(1);
+           ei = bounds(2);
+       end
+       
+       
      	% crossover of the two chromosomes
    	% results in 2 offsprings
 	if rand<XOVR			% recombine with a given probability
-		NewChrom(row,:) =cross_alternate_edges([OldChrom(row,:);OldChrom(row+1,:)]);
-		NewChrom(row+1,:)=cross_alternate_edges([OldChrom(row+1,:);OldChrom(row,:)]);
+		NewChrom(row,:) = cross_order_based([OldChrom(row,:);OldChrom(row+1,:)],bi,ei);
+		NewChrom(row+1,:) = cross_order_based([OldChrom(row+1,:);OldChrom(row,:)],bi,ei);
 	else
-		NewChrom(row,:)=OldChrom(row,:);
-		NewChrom(row+1,:)=OldChrom(row+1,:);
+		NewChrom(row,:) = OldChrom(row,:);
+		NewChrom(row+1,:) = OldChrom(row+1,:);
 	end
    end
 
