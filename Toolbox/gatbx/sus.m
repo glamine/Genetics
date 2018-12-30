@@ -33,7 +33,8 @@ function NewChrIx = sus(FitnV,Nsel);
    [NewChrIx, ans] = find(Mt < Mf & [ zeros(1, Nsel); Mf(1:Nind-1, :) ] <= Mt);
 
 % Shuffle new population
-   [ans, shuf] = sort(rand(Nsel, 1));
+   [ans, shuf] = sort(rand(Nsel, 1));%bullshit?
+   
    NewChrIx = NewChrIx(shuf);
 
 

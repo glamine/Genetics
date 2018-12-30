@@ -66,7 +66,7 @@ global Gen_data;
                   break;
             end          
         	%assign fitness values to entire population
-        	FitnV=ranking(ObjV); % give them a rank ?
+        	FitnV=ranking(ObjV); % give them a rank ? +-, fitness linear fct ranking
         	%select individuals for breeding
         	SelCh=select('sus', Chrom, FitnV, GGAP);
         	%recombine individuals (crossover)
