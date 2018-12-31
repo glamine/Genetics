@@ -2,7 +2,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 NIND=50;%50		% Number of individuals
-MAXGEN=1000;%100		% Maximum no. of generations
+MAXGEN=150;%100		% Maximum no. of generations
 NVAR=26;		% No. of variables
 PRECI=1;		% Precision of variables
 ELITIST=0.15;%0.25;%0.05    % percentage of the elite population
@@ -16,7 +16,7 @@ SCALE = 2;% it is 2 by default, should allow the tuning of selection pressure
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 global Gen_data;
-numberOfInstances = 1;%
+numberOfInstances = 2;%
 Gen_data.fitness = zeros(numberOfInstances,1);
 Gen_data.fitnessBis = zeros(numberOfInstances,1);
 Gen_data.i = 1;
