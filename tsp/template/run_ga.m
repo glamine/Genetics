@@ -79,7 +79,7 @@ global Gen_data;
             
             SelCh = recombin(CROSSOVER,SelCh,PR_CROSS);
             
-            SelCh=mutateTSP('inversion',SelCh,PR_MUT);
+            SelCh = mutateTSP('inversion',SelCh,PR_MUT);
             %evaluate offspring, call objective function
         	ObjVSel = tspfunPath(SelCh,Dist);
             %reinsert offspring into population
