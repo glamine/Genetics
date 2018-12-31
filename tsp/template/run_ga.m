@@ -1,4 +1,4 @@
-function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3)
+function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, SCALE)
 
 global Gen_data;
 
@@ -19,7 +19,7 @@ global Gen_data;
 % CROSSOVER: the crossover operator
 % calculate distance matrix between each pair of cities
 % ah1, ah2, ah3: axes handles to visualise tsp
-{NIND MAXGEN NVAR ELITIST STOP_PERCENTAGE PR_CROSS PR_MUT CROSSOVER LOCALLOOP}
+{NIND MAXGEN NVAR ELITIST STOP_PERCENTAGE PR_CROSS PR_MUT CROSSOVER LOCALLOOP SCALE}
 
 
         GGAP = 1 - ELITIST;
@@ -66,8 +66,14 @@ global Gen_data;
                   break;
             end          
         	%assign fitness values to entire population
-        	FitnV=ranking(ObjV); % give them a rank ? +-, fitness linear fct ranking
-        	%select individuals for breeding
+        	
+            %FitnV=ranking(ObjV); % give them a rank ? +-, fitness linear fct ranking
+                                    % longer have lower fitness
+            %assign fitness with FPS
+            FitnV = FPS(ObjV,SCALE);
+            %FitnV = scaling(ObjV,SCALE); % longer have higher fitness
+            
+            %select individuals for breeding
         	SelCh=select('sus', Chrom, FitnV, GGAP);
         	%recombine individuals (crossover)
             
