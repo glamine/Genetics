@@ -4,7 +4,7 @@ function  NewChrIx = tournament(FitnV,Nsel);
 
 CurrPop=1;
 NewChrIx=zeros(Nsel,1);
-K=20;
+K=2;
 rand=zeros(K,1);
 
 while (CurrPop<Nsel+1)
@@ -14,5 +14,6 @@ while (CurrPop<Nsel+1)
     NewChrIx(CurrPop)=best(1,2);
     CurrPop=CurrPop+1;
 
+end
 end
 

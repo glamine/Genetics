@@ -1,7 +1,10 @@
 function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, SCALE)
 
-global Gen_data;
+numberOfInstances = 2;
 
+PARENT_SELECTION =["sus","rws","tournament"];
+MUTATION = ["reciprocal_exchange", "inversion", "cut_inversion"];
+global tuning;
 % usage: run_ga(x, y, 
 %               NIND, MAXGEN, NVAR, 
 %               ELITIST, STOP_PERCENTAGE, 
@@ -22,6 +25,12 @@ global Gen_data;
 {NIND MAXGEN NVAR ELITIST STOP_PERCENTAGE PR_CROSS PR_MUT CROSSOVER LOCALLOOP SCALE}
 
 
+for par = 1:3 
+        
+    for mut = 1:3
+        
+        for i = 1:numberOfInstances
+        
         GGAP = 1 - ELITIST;
         mean_fits=zeros(1,MAXGEN+1);
         worst=zeros(1,MAXGEN+1);
@@ -46,6 +55,7 @@ global Gen_data;
         ObjV = tspfunPath(Chrom,Dist);
         best=zeros(1,MAXGEN);
         % generational loop
+        tic;
         while gen<MAXGEN
             sObjV=sort(ObjV);
           	best(gen+1)=min(ObjV);
@@ -74,12 +84,12 @@ global Gen_data;
             %FitnV = scaling(ObjV,SCALE); % longer have higher fitness
             
             %select individuals for breeding
-        	SelCh=select('sus', Chrom, FitnV, GGAP);
+        	SelCh=select(PARENT_SELECTION(par), Chrom, FitnV, GGAP);
         	%recombine individuals (crossover)
             
             SelCh = recombin(CROSSOVER,SelCh,PR_CROSS);
             
-            SelCh = mutateTSP('inversion',SelCh,PR_MUT);
+            SelCh = mutateTSP(MUTATION(mut),SelCh,PR_MUT);
             %evaluate offspring, call objective function
         	ObjVSel = tspfunPath(SelCh,Dist);
             %reinsert offspring into population
@@ -91,7 +101,28 @@ global Gen_data;
         	gen=gen+1;            
         end
         
-        Gen_data.fitness(Gen_data.i) = sObjV(1);
-        Gen_data.fitnessBis(Gen_data.i) = min(ObjV);
-        Gen_data. i = Gen_data.i + 1;
+        tuning.fitness(tuning.i) = sObjV(1);
+        tuning.mean(tuning.i)=mean(ObjV);
+        tuning.max(tuning.i)=max(ObjV);
+        tuning.div(tuning.i)=(length(unique(ObjV))/length(ObjV));
+        tuning.gen(tuning.i)=gen;
+        tuning.timer(tuning.i)=toc;
+        tuning.i = tuning.i + 1;
+        
+        end
+        
+        
+        tuning.summary(tuning.j,1)=mean(tuning.fitness);
+        tuning.summary(tuning.j,2)=mean(tuning.mean);
+        tuning.summary(tuning.j,3)=mean(tuning.max);
+        tuning.summary(tuning.j,4)=mean(tuning.div);
+        tuning.summary(tuning.j,5)=mean(tuning.gen);
+        tuning.summary(tuning.j,6)=mean(tuning.timer);
+        tuning.summary(tuning.j,7)=mut;
+        tuning.summary(tuning.j,8)=par;
+        tuning.summary(tuning.j,9)=1;
+        
+        tuning.j=tuning.j+1;
+    end    
 end
+
