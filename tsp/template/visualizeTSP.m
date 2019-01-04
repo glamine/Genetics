@@ -1,6 +1,6 @@
     function visualizeTSP(X,Y, Path, TotalDist, figNr, gen, best, mean_fits, worst, figNr2, ObjV, NIND, ah3)
         
-        global Gen_data;    
+        global tuning;    
  
         axes(figNr);
         plot(X(Path),Y(Path), 'ko-','MarkerFaceColor','Black');
@@ -10,7 +10,7 @@
         hold off;
         axes(figNr2);
         plot([0:gen],best(1:gen+1),'r-', [0:gen],mean_fits(1:gen+1),'b-', [0:gen],worst(1:gen+1),'g-');
-        title(['Iteration N = ' num2str(Gen_data.i)]);
+        title(['Iteration N = ' num2str(tuning.i)]);
         xlabel('Generation');
         ylabel('Distance (Min. - Gem. - Max.)');       
         axes(ah3);

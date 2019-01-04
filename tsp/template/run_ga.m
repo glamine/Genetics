@@ -1,10 +1,14 @@
 function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, SCALE)
 
-numberOfInstances = 2;
+
+global tuning;
+
+
 
 PARENT_SELECTION =["sus","rws","tournament"];
 MUTATION = ["reciprocal_exchange", "inversion", "cut_inversion"];
-global tuning;
+
+
 % usage: run_ga(x, y, 
 %               NIND, MAXGEN, NVAR, 
 %               ELITIST, STOP_PERCENTAGE, 
@@ -25,11 +29,34 @@ global tuning;
 {NIND MAXGEN NVAR ELITIST STOP_PERCENTAGE PR_CROSS PR_MUT CROSSOVER LOCALLOOP SCALE}
 
 
+
+
 for par = 1:3 
         
     for mut = 1:3
         
-        for i = 1:numberOfInstances
+        %counter 1
+        tuning.i = 1;
+        
+        %fitness column
+        tuning.fitness = zeros(tuning.numberOfInstances ,1);
+
+        %mean column
+        tuning.mean = zeros(tuning.numberOfInstances,1);
+
+        %max column
+        tuning.max = zeros(tuning.numberOfInstances ,1);
+
+        %diversity column
+        tuning.div  = zeros(tuning.numberOfInstances ,1);
+
+        %generations column
+        tuning.gen = zeros(tuning.numberOfInstances ,1);
+
+        %timer column
+        tuning.timer  = zeros(tuning.numberOfInstances ,1);
+        
+        for i = 1:tuning.numberOfInstances 
         
         GGAP = 1 - ELITIST;
         mean_fits=zeros(1,MAXGEN+1);

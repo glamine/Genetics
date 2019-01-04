@@ -3,7 +3,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 NIND=200;%50		% Number of individuals
-MAXGEN=1;%100		% Maximum no. of generations
+MAXGEN=150;%100		% Maximum no. of generations
 NVAR=26;		% No. of variables
 PRECI=1;		% Precision of variables
 ELITIST=0.15;%0.25;%0.05    % percentage of the elite population
@@ -18,29 +18,29 @@ SCALE = 2;% it is 2 by default, should allow the tuning of selection pressure
 
 global tuning;
 
+
+tuning.numberOfInstances = 2;
+
 %complete table
-tuning.summary = zeros(9,9);
+tuning.summary = zeros(9,9); 
 
 %fitness column
-tuning.fitness = zeros(numberOfInstances,1);
+tuning.fitness = zeros(tuning.numberOfInstances ,1);
 
 %mean column
-tuning.mean = zeros(numberOfInstances,1);
+tuning.mean = zeros(tuning.numberOfInstances,1);
 
 %max column
-tuning.max = zeros(numberOfInstances,1);
+tuning.max = zeros(tuning.numberOfInstances ,1);
 
 %diversity column
-tuning.div  = zeros(numberOfInstances,1);
+tuning.div  = zeros(tuning.numberOfInstances ,1);
 
 %generations column
-tuning.gen = zeros(numberOfInstances,1);
+tuning.gen = zeros(tuning.numberOfInstances ,1);
 
 %timer column
-tuning.timer  = zeros(numberOfInstances,1);
-
-%counter 1
-tuning.i = 1;
+tuning.timer  = zeros(tuning.numberOfInstances ,1);
 
 %counter 2
 tuning.j = 1;
@@ -81,7 +81,6 @@ xlabel('Distance');
 ylabel('Number');
 
 %%
-
     
     run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, SCALE);
     
