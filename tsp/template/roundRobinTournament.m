@@ -1,4 +1,4 @@
-function SelCh = roundRobinTournament(Chrom , ObjV, GGAP, KValue)
+function SelCh = roundRobinTournament(Chrom, ObjV, GGAP, KValue)
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -19,7 +19,7 @@ WinCount = zeros(Nind,1);
 %             K = K+1;
 %         end
 
-        for j = 1:(KValue - 1) %ou k
+        for j = 1:(KValue - 1) %could also be k
             RowIndex2 = randi(Nind) ;
             if ObjV(i) > ObjV(RowIndex2 ) ;
                 %RowIndex = RowIndex2 ;

@@ -2,6 +2,8 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+
 NIND=200;%50		% Number of individuals
 MAXGEN=150;%100		% Maximum no. of generations
 NVAR=26;		% No. of variables
@@ -19,7 +21,7 @@ SCALE = 2;% it is 2 by default, should allow the tuning of selection pressure
 global tuning;
 
 
-tuning.numberOfInstances = 2;
+tuning.numberOfInstances = 10;
 
 %complete table
 tuning.summary = zeros(9,9); 

@@ -110,17 +110,41 @@ for par = 1:3
             FitnV = FPS(ObjV,SCALE);
             %FitnV = scaling(ObjV,SCALE); % longer have higher fitness
             
-            %select individuals for breeding
-        	SelCh=select(PARENT_SELECTION(par), Chrom, FitnV, GGAP);
-        	%recombine individuals (crossover)
+            %select individuals for breeding, SelCh are the parents
+        	%SelCh=select(PARENT_SELECTION(par), Chrom, FitnV, GGAP);
+            ParCh = select(PARENT_SELECTION(par), Chrom, FitnV, GGAP);
             
-            SelCh = recombin(CROSSOVER,SelCh,PR_CROSS);
+        	
             
-            SelCh = mutateTSP(MUTATION(mut),SelCh,PR_MUT);
-            %evaluate offspring, call objective function
-        	ObjVSel = tspfunPath(SelCh,Dist);
+            %recombine parents to get the offspring (crossover)I have
+            %changed the name from SelCh to OffCh for clarity and 
+            %to be able to reuse SelCh
+            %SelCh = recombin(CROSSOVER,SelCh,PR_CROSS);
+            OffCh = recombin(CROSSOVER,ParCh,PR_CROSS);
+            
+            %mutate offsprings
+            %SelCh = mutateTSP(MUTATION(mut),SelCh,PR_MUT);
+            OffCh = mutateTSP(MUTATION(mut),OffCh,PR_MUT);
+            
+            %output the chromosomes out of the algorithm to be able to
+            %examine them, has no use in the algorithm
+            %tuning.ParCh = ParCh;
+            %tuning.Chrom = Chrom;
+            %tuning.OffCh = OffCh;
+            
+            %evaluate offspring and selected parents, call objective function
+            %ObjVSel = tspfunPath(SelCh,Dist);
+        	ObjVOff = tspfunPath(OffCh,Dist);
+            ObjVPar = tspfunPath(ParCh,Dist);
+            
             %reinsert offspring into population
-        	[Chrom ObjV]=reins(Chrom,SelCh,1,1,ObjV,ObjVSel);
+            
+            %these two are for the elitism suvivor selection
+            %[Chrom ObjV]=reins(Chrom,SelCh,1,1,ObjV,ObjVSel);
+        	%[Chrom ObjV]=reins(Chrom,OffCh,1,1,ObjV,ObjVOff);
+            
+            %this is for the robin round tournament
+            [Chrom ObjV]=new_round_robin(ParCh,OffCh,ObjVPar,ObjVOff,NIND);
             
             %Chrom = tsp_ImprovePopulation(NIND, NVAR, Chrom,LOCALLOOP,Dist);
             Chrom = MyHeuristic(NIND, NVAR, Chrom,LOCALLOOP,Dist);
