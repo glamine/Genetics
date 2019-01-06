@@ -34,10 +34,14 @@ global Gen_data;
         
         % initialize population
         Chrom=zeros(NIND,NVAR);
-        for row=1:NIND
+        for row=1:NIND - 1
         	%Chrom(row,:)=path2adj(randperm(NVAR));%if path representation
             Chrom(row,:)=randperm(NVAR);
         end
+        
+        Chrom(NIND,:) = GreedyChromkNN(Dist,NVAR);
+        
+        
         gen=0;
         counter=0;
         % number of individuals of equal fitness needed to stop

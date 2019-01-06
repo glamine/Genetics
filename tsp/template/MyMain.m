@@ -1,7 +1,7 @@
 % MyMain
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-NIND=100;%50		% Number of individuals
+NIND=500;%50		% Number of individuals
 MAXGEN=1000;%100		% Maximum no. of generations
 NVAR=26;		% No. of variables
 PRECI=1;		% Precision of variables
@@ -13,7 +13,7 @@ PR_MUT=.15;%0.05       % probability of mutation
 LOCALLOOP=1; %0     % local loop removal
 CROSSOVER = 'myOX';%'xalt_edges';  % default crossover operator
 SCALE = 2;% it is 2 by default, should allow the tuning of selection pressure
-NGEN_NOIMPROVE = 50;
+NGEN_NOIMPROVE = 200;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 global Gen_data;
@@ -30,7 +30,7 @@ for i=1:size(datasets,1);
 end
 
 % start with first dataset
-data = load(['datasets/' datasets{2}]); %change dataset
+data = load(['datasets/' datasets{10}]); %change dataset
 x=data(:,1)/max([data(:,1);data(:,2)]);
 y=data(:,2)/max([data(:,1);data(:,2)]);
 NVAR=size(data,1);
