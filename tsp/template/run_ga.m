@@ -5,8 +5,8 @@ global tuning;
 
 
 
-PARENT_SELECTION =['sus','rws','tournament'];
-MUTATION = ['reciprocal_exchange', 'inversion', 'cut_inversion'];
+PARENT_SELECTION ={'sus','rws','tournament'};
+MUTATION = {'reciprocal_exchange', 'inversion', 'cut_inversion'};
 
 
 % usage: run_ga(x, y, 
@@ -70,10 +70,14 @@ for par = 1:3
         
         % initialize population
         Chrom=zeros(NIND,NVAR);
-        for row=1:NIND
+        for row=1:NIND - 1
         	%Chrom(row,:)=path2adj(randperm(NVAR));%if path representation
             Chrom(row,:)=randperm(NVAR);
         end
+        
+        Chrom(NIND,:) = GreedyChromkNN(Dist,NVAR);
+        
+        
         gen=0;
         counter=0;
         % number of individuals of equal fitness needed to stop
@@ -125,7 +129,7 @@ for par = 1:3
             
             %select individuals for breeding, SelCh are the parents
         	%SelCh=select(PARENT_SELECTION(par), Chrom, FitnV, GGAP);
-            ParCh = select(PARENT_SELECTION(par), Chrom, FitnV, GGAP);
+            ParCh = select(PARENT_SELECTION{par}, Chrom, FitnV, GGAP);
             
         	
             
@@ -137,7 +141,7 @@ for par = 1:3
             
             %mutate offsprings
             %SelCh = mutateTSP(MUTATION(mut),SelCh,PR_MUT);
-            OffCh = mutateTSP(MUTATION(mut),OffCh,PR_MUT);
+            OffCh = mutateTSP(MUTATION{mut},OffCh,PR_MUT);
             
             %output the chromosomes out of the algorithm to be able to
             %examine them, has no use in the algorithm

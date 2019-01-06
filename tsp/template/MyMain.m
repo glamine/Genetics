@@ -1,7 +1,7 @@
 % MyMain
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-NIND=100;%50		% Number of individuals
+NIND=500;%50		% Number of individuals
 MAXGEN=1000;%100		% Maximum no. of generations
 NVAR=26;		% No. of variables
 PRECI=1;		% Precision of variables
@@ -61,7 +61,7 @@ for i=1:size(datasets,1);
 end
 
 % start with first dataset
-data = load(['datasets/' datasets{2}]); %change dataset
+data = load(['datasets/' datasets{10}]); %change dataset
 x=data(:,1)/max([data(:,1);data(:,2)]);
 y=data(:,2)/max([data(:,1);data(:,2)]);
 NVAR=size(data,1);
