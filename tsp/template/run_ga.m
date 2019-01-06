@@ -22,6 +22,7 @@ global Gen_data;
 {NIND MAXGEN NVAR ELITIST STOP_PERCENTAGE PR_CROSS PR_MUT CROSSOVER LOCALLOOP SCALE NGEN_NOIMPROVE}
 
 
+        nGreedy = 0;
         GGAP = 1 - ELITIST;
         mean_fits=zeros(1,MAXGEN+1);
         worst=zeros(1,MAXGEN+1);
@@ -32,14 +33,18 @@ global Gen_data;
             end
         end
         
+        tic;
+        
         % initialize population
         Chrom=zeros(NIND,NVAR);
-        for row=1:NIND - 1
+        for row=1:NIND - nGreedy
         	%Chrom(row,:)=path2adj(randperm(NVAR));%if path representation
             Chrom(row,:)=randperm(NVAR);
         end
         
-        Chrom(NIND,:) = GreedyChromkNN(Dist,NVAR);
+%         for ng = 1:nGreedy
+%             Chrom(NIND-ng+1,:) = GreedyChromkNN(Dist,NVAR);
+%         end
         
         
         gen=0;
@@ -76,17 +81,17 @@ global Gen_data;
             end
 
             %visualizeTSP(x,y,adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
-            visualizeTSP(x,y,Chrom(t,:), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3); %visualize does not change
+            visualizeTSP(x,y,Chrom(t,:), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3,ELITIST); %visualize does not change
 
             if (sObjV(stopN)-sObjV(1) <= 1e-15)
                   break;
             end          
         	%assign fitness values to entire population
         	
-            %FitnV=ranking(ObjV); % give them a rank ? +-, fitness linear fct ranking
+            FitnV=ranking(ObjV); % give them a rank ? +-, fitness linear fct ranking
                                     % longer have lower fitness
             %assign fitness with FPS
-            FitnV = FPS(ObjV,SCALE);
+            %FitnV = FPS(ObjV,SCALE);
             %FitnV = scaling(ObjV,SCALE); % longer have higher fitness
             
             %select individuals for breeding
@@ -95,7 +100,7 @@ global Gen_data;
             
             SelCh = recombin(CROSSOVER,SelCh,PR_CROSS);
             
-            SelCh = mutateTSP('inversion',SelCh,PR_MUT);
+            SelCh = mutateTSP('cut_inversion',SelCh,PR_MUT);
             %evaluate offspring, call objective function
         	ObjVSel = tspfunPath(SelCh,Dist);
             %reinsert offspring into population
@@ -107,7 +112,11 @@ global Gen_data;
         	gen=gen+1;
         end
         
-        Gen_data.fitness(Gen_data.i) = sObjV(1);
-        Gen_data.fitnessBis(Gen_data.i) = min(ObjV);
-        Gen_data. i = Gen_data.i + 1;
+        Gen_data.timer(Gen_data.i,Gen_data.j) = toc;
+        Gen_data.gen(Gen_data.i,Gen_data.j) = gen;
+        Gen_data.fitness(Gen_data.i,Gen_data.j) = sObjV(1);
+        Gen_data.diversity(Gen_data.i,Gen_data.j) = sObjV(stopN)-sObjV(1);
+        
+        %Gen_data.fitnessBis(Gen_data.i,Gen_data.j) = min(ObjV);
+        Gen_data.i = Gen_data.i + 1;
 end

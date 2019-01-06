@@ -1,4 +1,4 @@
-    function visualizeTSP(X,Y, Path, TotalDist, figNr, gen, best, mean_fits, worst, figNr2, ObjV, NIND, ah3)
+    function visualizeTSP(X,Y, Path, TotalDist, figNr, gen, best, mean_fits, worst, figNr2, ObjV, NIND, ah3,ELITIST)
         
         global Gen_data;    
  
@@ -10,7 +10,7 @@
         hold off;
         axes(figNr2);
         plot([0:gen],best(1:gen+1),'r-', [0:gen],mean_fits(1:gen+1),'b-', [0:gen],worst(1:gen+1),'g-');
-        title(['Iteration N = ' num2str(Gen_data.i)]);
+        title(['N = ' num2str(Gen_data.i) ', elitism = ' num2str(ELITIST) ', pop = ' num2str(NIND) ]);
         xlabel('Generation');
         ylabel('Distance (Min. - Gem. - Max.)');       
         axes(ah3);
