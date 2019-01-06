@@ -5,8 +5,10 @@ global tuning;
 
 
 
-PARENT_SELECTION =['sus','rws','tournament'];
-MUTATION = ['reciprocal_exchange', 'inversion', 'cut_inversion'];
+%PARENT_SELECTION =['sus','rws','tournament'];
+%MUTATION = ['reciprocal_exchange', 'inversion', 'cut_inversion'];
+PARENT_SELECTION =["sus","rws","tournament"];
+MUTATION = ["reciprocal_exchange", "inversion" "cut_inversion"];
 
 
 % usage: run_ga(x, y, 
