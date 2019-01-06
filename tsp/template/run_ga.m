@@ -1,12 +1,12 @@
-function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, SCALE)
+function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, SCALE, NGEN_NOIMPROVE)
 
 
 global tuning;
 
 
 
-PARENT_SELECTION =["sus","rws","tournament"];
-MUTATION = ["reciprocal_exchange", "inversion", "cut_inversion"];
+PARENT_SELECTION =['sus','rws','tournament'];
+MUTATION = ['reciprocal_exchange', 'inversion', 'cut_inversion'];
 
 
 % usage: run_ga(x, y, 
@@ -26,7 +26,7 @@ MUTATION = ["reciprocal_exchange", "inversion", "cut_inversion"];
 % CROSSOVER: the crossover operator
 % calculate distance matrix between each pair of cities
 % ah1, ah2, ah3: axes handles to visualise tsp
-{NIND MAXGEN NVAR ELITIST STOP_PERCENTAGE PR_CROSS PR_MUT CROSSOVER LOCALLOOP SCALE}
+{NIND MAXGEN NVAR ELITIST STOP_PERCENTAGE PR_CROSS PR_MUT CROSSOVER LOCALLOOP SCALE NGEN_NOIMPROVE}
 
 
 
@@ -75,6 +75,7 @@ for par = 1:3
             Chrom(row,:)=randperm(NVAR);
         end
         gen=0;
+        counter=0;
         % number of individuals of equal fitness needed to stop
         stopN=ceil(STOP_PERCENTAGE*NIND);
         % evaluate initial population
@@ -82,13 +83,23 @@ for par = 1:3
         ObjV = tspfunPath(Chrom,Dist);
         best=zeros(1,MAXGEN);
         % generational loop
+
         tic;
-        while gen<MAXGEN
+        while (gen<MAXGEN && counter < NGEN_NOIMPROVE)
+            
             sObjV=sort(ObjV);
           	best(gen+1)=min(ObjV);
         	minimum=best(gen+1);
             mean_fits(gen+1)=mean(ObjV);
             worst(gen+1)=max(ObjV);
+            
+            if(gen > 0)
+                if(best(gen) == best(gen+1))
+                    counter = counter+1;
+                end
+            end
+            
+            
             
             for t=1:size(ObjV,1)
                 if (ObjV(t)==minimum) % Obj est une fitness, the best one
@@ -149,7 +160,7 @@ for par = 1:3
             %Chrom = tsp_ImprovePopulation(NIND, NVAR, Chrom,LOCALLOOP,Dist);
             Chrom = MyHeuristic(NIND, NVAR, Chrom,LOCALLOOP,Dist);
         	%increment generation counter
-        	gen=gen+1;            
+        	gen=gen+1;
         end
         
         tuning.fitness(tuning.i) = sObjV(1);

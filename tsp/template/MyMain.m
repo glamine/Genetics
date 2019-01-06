@@ -1,11 +1,8 @@
 % MyMain
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-NIND=200;%50		% Number of individuals
-MAXGEN=150;%100		% Maximum no. of generations
+NIND=100;%50		% Number of individuals
+MAXGEN=1000;%100		% Maximum no. of generations
 NVAR=26;		% No. of variables
 PRECI=1;		% Precision of variables
 ELITIST=0.15;%0.25;%0.05    % percentage of the elite population
@@ -16,6 +13,7 @@ PR_MUT=.15;%0.05       % probability of mutation
 LOCALLOOP=1; %0     % local loop removal
 CROSSOVER = 'myOX';%'xalt_edges';  % default crossover operator
 SCALE = 2;% it is 2 by default, should allow the tuning of selection pressure
+NGEN_NOIMPROVE = 100;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 global tuning;
@@ -47,6 +45,14 @@ tuning.timer  = zeros(tuning.numberOfInstances ,1);
 %counter 2
 tuning.j = 1;
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+global Gen_data;
+numberOfInstances = 3;%
+Gen_data.fitness = zeros(numberOfInstances,1);
+Gen_data.fitnessBis = zeros(numberOfInstances,1);
+Gen_data.i = 1;
+
 % load the data sets
 datasetslist = dir('datasets/');datasetslist = dir('datasets/');
 datasets=cell( size(datasetslist,1)-2,1);datasets=cell( size(datasetslist,1)-2 ,1);
@@ -55,7 +61,7 @@ for i=1:size(datasets,1);
 end
 
 % start with first dataset
-data = load(['datasets/' datasets{6}]); %change dataset
+data = load(['datasets/' datasets{2}]); %change dataset
 x=data(:,1)/max([data(:,1);data(:,2)]);
 y=data(:,2)/max([data(:,1);data(:,2)]);
 NVAR=size(data,1);
@@ -84,7 +90,7 @@ ylabel('Number');
 
 %%
     
-    run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, SCALE);
+    run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, SCALE, NGEN_NOIMPROVE);
     
 
 
