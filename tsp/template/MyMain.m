@@ -1,7 +1,7 @@
 % MyMain
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-NIND=1000;%50		% Number of individuals
+NIND=100;%50		% Number of individuals
 MAXGEN=1000;%100		% Maximum no. of generations
 NVAR=26;		% No. of variables
 PRECI=1;		% Precision of variables
@@ -13,10 +13,11 @@ PR_MUT=.15;%0.05       % probability of mutation
 LOCALLOOP=1; %0     % local loop removal
 CROSSOVER = 'myOX';%'xalt_edges';  % default crossover operator
 SCALE = 2;% it is 2 by default, should allow the tuning of selection pressure
+NGEN_NOIMPROVE = 100;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 global Gen_data;
-numberOfInstances = 1;%
+numberOfInstances = 3;%
 Gen_data.fitness = zeros(numberOfInstances,1);
 Gen_data.fitnessBis = zeros(numberOfInstances,1);
 Gen_data.i = 1;
@@ -29,7 +30,7 @@ for i=1:size(datasets,1);
 end
 
 % start with first dataset
-data = load(['datasets/' datasets{10}]); %change dataset
+data = load(['datasets/' datasets{2}]); %change dataset
 x=data(:,1)/max([data(:,1);data(:,2)]);
 y=data(:,2)/max([data(:,1);data(:,2)]);
 NVAR=size(data,1);
@@ -60,7 +61,7 @@ ylabel('Number');
 
 for i = 1:numberOfInstances
     
-    run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, SCALE);
+    run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, SCALE, NGEN_NOIMPROVE);
     
 end
 
