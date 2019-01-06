@@ -13,7 +13,7 @@ PR_MUT=.15;%0.05       % probability of mutation
 LOCALLOOP=1; %0     % local loop removal
 CROSSOVER = 'myOX';%'xalt_edges';  % default crossover operator
 SCALE = 2;% it is 2 by default, should allow the tuning of selection pressure
-NGEN_NOIMPROVE = 100;
+NGEN_NOIMPROVE = 50;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 global Gen_data;

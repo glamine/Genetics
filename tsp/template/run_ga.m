@@ -58,6 +58,8 @@ global Gen_data;
             if(gen > 0)
                 if(best(gen) == best(gen+1))
                     counter = counter+1;
+                else
+                    counter = 0;
                 end
             end
             
