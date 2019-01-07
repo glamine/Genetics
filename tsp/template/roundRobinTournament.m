@@ -21,7 +21,7 @@ WinCount = zeros(Nind,1);
 
         for j = 1:(KValue - 1) %ou k
             RowIndex2 = randi(Nind) ;
-            if ObjV(i) > ObjV(RowIndex2 ) ;
+            if ObjV(i) < ObjV(RowIndex2 ) ;
                 %RowIndex = RowIndex2 ;
                 WinCount(i) = WinCount(i) + 1;
             end

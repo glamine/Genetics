@@ -1,4 +1,4 @@
-function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, SCALE, NGEN_NOIMPROVE)
+function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, NGEN_NOIMPROVE,K)
 
 global Gen_data;
 
@@ -19,10 +19,10 @@ global Gen_data;
 % CROSSOVER: the crossover operator
 % calculate distance matrix between each pair of cities
 % ah1, ah2, ah3: axes handles to visualise tsp
-{NIND MAXGEN NVAR ELITIST STOP_PERCENTAGE PR_CROSS PR_MUT CROSSOVER LOCALLOOP SCALE NGEN_NOIMPROVE}
+{NIND MAXGEN NVAR ELITIST STOP_PERCENTAGE PR_CROSS PR_MUT CROSSOVER LOCALLOOP NGEN_NOIMPROVE K}
 
 
-        nGreedy = 0;
+        nGreedy = 5;
         GGAP = 1 - ELITIST;
         mean_fits=zeros(1,MAXGEN+1);
         worst=zeros(1,MAXGEN+1);
@@ -42,9 +42,9 @@ global Gen_data;
             Chrom(row,:)=randperm(NVAR);
         end
         
-%         for ng = 1:nGreedy
-%             Chrom(NIND-ng+1,:) = GreedyChromkNN(Dist,NVAR);
-%         end
+        for ng = 1:nGreedy
+            Chrom(NIND-ng+1,:) = GreedyChromkNN(Dist,NVAR);
+        end
         
         
         gen=0;
@@ -91,20 +91,31 @@ global Gen_data;
             FitnV=ranking(ObjV); % give them a rank ? +-, fitness linear fct ranking
                                     % longer have lower fitness
             %assign fitness with FPS
-            %FitnV = FPS(ObjV,SCALE);
-            %FitnV = scaling(ObjV,SCALE); % longer have higher fitness
+            %FitnV = FPS(ObjV,2);%SCALE
+            %FitnV = scaling(ObjV,2); % SCALE % longer have higher fitness
             
             %select individuals for breeding
-        	SelCh=select('sus', Chrom, FitnV, GGAP);
-        	%recombine individuals (crossover)
+            %SelCh=select('sus', Chrom, FitnV, GGAP);
+            ParSelCh=select('sus', Chrom, FitnV, GGAP);
+        	
+            %recombine individuals (crossover)
             
-            SelCh = recombin(CROSSOVER,SelCh,PR_CROSS);
+            %SelCh = recombin(CROSSOVER,SelCh,PR_CROSS);
+            OffSelCh = recombin(CROSSOVER,ParSelCh,PR_CROSS);
             
-            SelCh = mutateTSP('cut_inversion',SelCh,PR_MUT);
+            %SelCh = mutateTSP('cut_inversion',SelCh,PR_MUT);
+            OffSelCh = mutateTSP('cut_inversion',OffSelCh,PR_MUT);
+            
             %evaluate offspring, call objective function
-        	ObjVSel = tspfunPath(SelCh,Dist);
+        	%ObjVSel = tspfunPath(SelCh,Dist);
+            ObjVOff = tspfunPath(OffSelCh,Dist);
+            ObjVPar = tspfunPath(ParSelCh,Dist);
+            
+            
             %reinsert offspring into population
-        	[Chrom ObjV]=reins(Chrom,SelCh,1,1,ObjV,ObjVSel);
+        	%[Chrom ObjV]=reins(Chrom,SelCh,1,1,ObjV,ObjVSel);
+            
+            [Chrom ObjV] = new_round_robin(ParSelCh,OffSelCh,ObjVPar,ObjVOff,NIND,K);
             
             %Chrom = tsp_ImprovePopulation(NIND, NVAR, Chrom,LOCALLOOP,Dist);
             Chrom = MyHeuristic(NIND, NVAR, Chrom,LOCALLOOP,Dist);
