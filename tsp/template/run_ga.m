@@ -22,7 +22,7 @@ global Gen_data;
 {NIND MAXGEN NVAR ELITIST STOP_PERCENTAGE PR_CROSS PR_MUT CROSSOVER LOCALLOOP NGEN_NOIMPROVE K}
 
 
-        nGreedy = 5;
+        nGreedy = 0;
         GGAP = 1 - ELITIST;
         mean_fits=zeros(1,MAXGEN+1);
         worst=zeros(1,MAXGEN+1);
@@ -42,9 +42,9 @@ global Gen_data;
             Chrom(row,:)=randperm(NVAR);
         end
         
-        for ng = 1:nGreedy
-            Chrom(NIND-ng+1,:) = GreedyChromkNN(Dist,NVAR);
-        end
+%         for ng = 1:nGreedy
+%             Chrom(NIND-ng+1,:) = GreedyChromkNN(Dist,NVAR);
+%         end
         
         
         gen=0;
@@ -95,27 +95,27 @@ global Gen_data;
             %FitnV = scaling(ObjV,2); % SCALE % longer have higher fitness
             
             %select individuals for breeding
-            %SelCh=select('sus', Chrom, FitnV, GGAP);
-            ParSelCh=select('sus', Chrom, FitnV, GGAP);
+            SelCh=select('sus', Chrom, FitnV, GGAP);
+            %ParSelCh=select('sus', Chrom, FitnV, GGAP);
         	
             %recombine individuals (crossover)
             
-            %SelCh = recombin(CROSSOVER,SelCh,PR_CROSS);
-            OffSelCh = recombin(CROSSOVER,ParSelCh,PR_CROSS);
+            SelCh = recombin(CROSSOVER,SelCh,PR_CROSS);
+            %OffSelCh = recombin(CROSSOVER,ParSelCh,PR_CROSS);
             
-            %SelCh = mutateTSP('cut_inversion',SelCh,PR_MUT);
-            OffSelCh = mutateTSP('cut_inversion',OffSelCh,PR_MUT);
+            SelCh = mutateTSP('cut_inversion',SelCh,PR_MUT);
+            %OffSelCh = mutateTSP('cut_inversion',OffSelCh,PR_MUT);
             
             %evaluate offspring, call objective function
-        	%ObjVSel = tspfunPath(SelCh,Dist);
-            ObjVOff = tspfunPath(OffSelCh,Dist);
-            ObjVPar = tspfunPath(ParSelCh,Dist);
+        	ObjVSel = tspfunPath(SelCh,Dist);
+            %ObjVOff = tspfunPath(OffSelCh,Dist);
+            %ObjVPar = tspfunPath(ParSelCh,Dist);
             
             
             %reinsert offspring into population
-        	%[Chrom ObjV]=reins(Chrom,SelCh,1,1,ObjV,ObjVSel);
+        	[Chrom ObjV]=reins(Chrom,SelCh,1,1,ObjV,ObjVSel);
             
-            [Chrom ObjV] = new_round_robin(ParSelCh,OffSelCh,ObjVPar,ObjVOff,NIND,K);
+            %[Chrom ObjV] = new_round_robin(ParSelCh,OffSelCh,ObjVPar,ObjVOff,NIND,K);
             
             %Chrom = tsp_ImprovePopulation(NIND, NVAR, Chrom,LOCALLOOP,Dist);
             Chrom = MyHeuristic(NIND, NVAR, Chrom,LOCALLOOP,Dist);

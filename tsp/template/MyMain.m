@@ -35,9 +35,10 @@ for i=1:size(datasets,1);
 end
 
 % start with first dataset
-data = load(['datasets/' datasets{6}]); %change dataset
+data = load(['datasets/' datasets{15}]); %change dataset
 x=data(:,1)/max([data(:,1);data(:,2)]);
 y=data(:,2)/max([data(:,1);data(:,2)]);
+max([data(:,1);data(:,2)])
 NVAR=size(data,1);
 
 %%
@@ -65,11 +66,11 @@ ylabel('Number');
 %%
 
 
-%     for i = 1:numberOfInstances
-% 
-%         run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, NGEN_NOIMPROVE,K);
-%     
-%     end
+    for i = 1:numberOfInstances
+
+        run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, NGEN_NOIMPROVE,K);
+    
+    end
 
 %%
 
@@ -105,19 +106,19 @@ ylabel('Number');
 
 
 %K value
-for myK = [3 5 7 10]
-    for i = 1:numberOfInstances
-
-        run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, NGEN_NOIMPROVE,myK);
-    
-    end
-    
-    Gen_data.elitism(Gen_data.j) = ELITIST;
-    Gen_data.pop(Gen_data.j) = NIND;
-    Gen_data.K(Gen_data.j) = myK;
-    Gen_data.i = 1;
-    Gen_data.j = Gen_data.j + 1;
-end
+% for myK = [3 5 7 10]
+%     for i = 1:numberOfInstances
+% 
+%         run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, NGEN_NOIMPROVE,myK);
+%     
+%     end
+%     
+%     Gen_data.elitism(Gen_data.j) = ELITIST;
+%     Gen_data.pop(Gen_data.j) = NIND;
+%     Gen_data.K(Gen_data.j) = myK;
+%     Gen_data.i = 1;
+%     Gen_data.j = Gen_data.j + 1;
+% end
 
 %%
 
@@ -160,8 +161,10 @@ end
 % 
 % meantime = [timeA timeB timeC timeD timeE timeF timeG timeH timeI];
 
-%meanfits = mean([Gen_data.fitness, other_firness]);
-%meantime = mean([Gen_data.timer, other_timer]);
+% meanfits = mean([Gen_data.fitness, other_firness]);
+% meantime = mean([Gen_data.timer, other_timer]);
+% meandiversity = mean(other_diversity);
+% meanNgen = mean(other_gen);
 %varfits = var([Gen_data.fitness, other_firness]);
 
 % meanfits2 = mean(other_fitness);
@@ -233,35 +236,44 @@ end
 
 %%
 
-meanfits4 = mean(Gen_data.fitness);
-meantime4 = mean(Gen_data.timer);
-meandiversity4 = mean(Gen_data.diversity);
-meanNgen4 = mean(Gen_data.gen);
+% meanfits4 = mean(Gen_data.fitness);
+% meantime4 = mean(Gen_data.timer);
+% meandiversity4 = mean(Gen_data.diversity);
+% meanNgen4 = mean(Gen_data.gen);
+% 
+% figure(10);
+% plot(Gen_data.K,meanfits4);  
+% set(gca,'fontsize',12);
+% title('Average path length in function of size round-robin')
+% xlabel('K-tournament [/]')
+% ylabel('Path length [/]')
+% 
+% figure(11);
+% plot(Gen_data.K,meantime4);  
+% set(gca,'fontsize',12);
+% title('Average time of computation in function of size round-robin')
+% xlabel('K-tournament [/]')
+% ylabel('Time [s]')
+% 
+% figure(12);
+% plot(Gen_data.K,meanNgen4);  
+% set(gca,'fontsize',12);
+% title('Average number of generations in function of size round-robin')
+% xlabel('K-tournament [/]')
+% ylabel('Ngen [/]')
+% 
+% figure(13);
+% plot(Gen_data.K,meandiversity4);  
+% set(gca,'fontsize',12);
+% title('Average difference of path length in function of size round-robin')
+% xlabel('K-tournament [/]')
+% ylabel('Difference of path [/]')
 
-figure(10);
-plot(Gen_data.K,meanfits4);  
-set(gca,'fontsize',12);
-title('Average path length in function of size round-robin')
-xlabel('K-tournament [/]')
-ylabel('Path length [/]')
+%%
 
-figure(11);
-plot(Gen_data.K,meantime4);  
-set(gca,'fontsize',12);
-title('Average time of computation in function of size round-robin')
-xlabel('K-tournament [/]')
-ylabel('Time [s]')
+% heuristics 
 
-figure(12);
-plot(Gen_data.K,meanNgen4);  
-set(gca,'fontsize',12);
-title('Average number of generations in function of size round-robin')
-xlabel('K-tournament [/]')
-ylabel('Ngen [/]')
-
-figure(13);
-plot(Gen_data.K,meandiversity4);  
-set(gca,'fontsize',12);
-title('Average difference of path length in function of size round-robin')
-xlabel('K-tournament [/]')
-ylabel('Difference of path [/]')
+meanfits5 = mean(Gen_data.fitness)
+meantime5 = mean(Gen_data.timer)
+meandiversity5 = mean(Gen_data.diversity)
+meanNgen5 = mean(Gen_data.gen)
